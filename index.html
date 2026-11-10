@@ -197,7 +197,11 @@ nav a:hover{color:var(--ink);background:var(--indigo-soft)}
 .kind{font-size:.72rem;font-weight:600;padding:1px 8px;border-radius:6px;margin-inline-end:6px;vertical-align:middle}
 .kind.client{background:color-mix(in srgb,var(--clay) 14%,transparent);color:var(--clay)}
 .kind.collab{background:color-mix(in srgb,var(--gold) 18%,transparent);color:var(--ink)}
-@media (max-width:560px){.req{flex-wrap:wrap}.req .btn{width:100%}}
+@media (max-width:560px){
+  .req{display:grid;grid-template-columns:auto 1fr;align-items:start;gap:4px 12px;padding:12px}
+  .req .btn{grid-column:2;justify-self:start;margin-top:6px}
+  .req .kind{display:table;margin-bottom:4px}
+}
 
 /* form */
 .order{background:var(--ink);color:var(--sand);border-radius:20px;overflow:hidden}
@@ -343,6 +347,26 @@ nav.bnav{display:none}
   .rosette{max-width:300px}
   section{padding-block:44px}
   .sec-head::before{width:110px;height:110px;top:-34px;inset-inline-start:-20px}
+}
+/* mobile: artisans & guilds become swipe rows, tighter events, scrollable tabs */
+.swipe-hint{display:none}
+@media (max-width:600px){
+  .a-grid,.g-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin-inline:-16px;padding:6px 16px 12px;scrollbar-width:none;overscroll-behavior-x:contain}
+  .a-grid::-webkit-scrollbar,.g-grid::-webkit-scrollbar,.tabs::-webkit-scrollbar{display:none}
+  .a-grid > *{flex:0 0 80%;scroll-snap-align:start}
+  .g-grid > *{flex:0 0 86%;scroll-snap-align:start}
+  .a-grid > .empty{flex-basis:100%}
+  .swipe-hint{display:block;font-size:.8rem;color:var(--muted);margin-top:2px}
+  .filters{grid-template-columns:1fr 1fr;gap:8px}
+  .filters .btn{display:none}
+  .count{margin-bottom:8px}
+  .tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-16px;padding-inline:16px}
+  .tab{white-space:nowrap;flex:none}
+  .event{padding:12px;gap:12px}
+  .date{width:60px;padding:6px 2px}
+  .date b{font-size:1.45rem}
+  .featured{gap:22px}
+  .order-in{gap:20px}
 }
 @media (max-width:940px){
   nav.bnav{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;position:fixed;inset:auto 0 0;z-index:9;background:color-mix(in srgb,var(--surface) 92%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid var(--line);box-shadow:0 -12px 26px -20px var(--sh-tint);
@@ -510,6 +534,7 @@ body.present section{padding-block:76px}
       </div>
       <div class="count" id="count" aria-live="polite"></div>
       <div class="a-grid" id="artisanGrid"></div>
+      <p class="swipe-hint" aria-hidden="true">اسحب لرؤية بقية الحرفيين ←</p>
     </div>
   </section>
 
@@ -522,6 +547,7 @@ body.present section{padding-block:76px}
         <p>يتبادل فيه الحرفيون الخبرة ويتابعون جديد حرفتهم. الأعداد تجريبية.</p>
       </div>
       <div class="g-grid" id="guildGrid"></div>
+      <p class="swipe-hint" aria-hidden="true">اسحب لرؤية بقية المجالس ←</p>
     </div>
   </section>
 
@@ -565,7 +591,6 @@ body.present section{padding-block:76px}
             </div>
             <h2 id="formTitle">اطلب قطعة مخصّصة</h2>
             <p id="formText">اختر الحرفة والحرفي، وسنجهّز رسالة طلب جاهزة للإرسال عبر واتساب.</p>
-            <p>رقم المنصة: <b dir="ltr" style="user-select:all">+966 5X XXX XXXX</b> <span class="sample">استبدله برقمك</span></p>
           </div>
           <div>
             <form id="orderForm" novalidate>
